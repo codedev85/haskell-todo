@@ -30,6 +30,56 @@
   (major1) == 4 && (major2) <  17 || \
   (major1) == 4 && (major2) == 17 && (minor) <= 2)
 #endif /* MIN_VERSION_base */
+/* package bytestring-0.11.5.3 */
+#ifndef VERSION_bytestring
+#define VERSION_bytestring "0.11.5.3"
+#endif /* VERSION_bytestring */
+#ifndef MIN_VERSION_bytestring
+#define MIN_VERSION_bytestring(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  11 || \
+  (major1) == 0 && (major2) == 11 && (minor) <= 5)
+#endif /* MIN_VERSION_bytestring */
+/* package http-api-data-0.6.1 */
+#ifndef VERSION_http_api_data
+#define VERSION_http_api_data "0.6.1"
+#endif /* VERSION_http_api_data */
+#ifndef MIN_VERSION_http_api_data
+#define MIN_VERSION_http_api_data(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  6 || \
+  (major1) == 0 && (major2) == 6 && (minor) <= 1)
+#endif /* MIN_VERSION_http_api_data */
+/* package http-media-0.8.1.1 */
+#ifndef VERSION_http_media
+#define VERSION_http_media "0.8.1.1"
+#endif /* VERSION_http_media */
+#ifndef MIN_VERSION_http_media
+#define MIN_VERSION_http_media(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  8 || \
+  (major1) == 0 && (major2) == 8 && (minor) <= 1)
+#endif /* MIN_VERSION_http_media */
+/* package http-types-0.12.4 */
+#ifndef VERSION_http_types
+#define VERSION_http_types "0.12.4"
+#endif /* VERSION_http_types */
+#ifndef MIN_VERSION_http_types
+#define MIN_VERSION_http_types(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  12 || \
+  (major1) == 0 && (major2) == 12 && (minor) <= 4)
+#endif /* MIN_VERSION_http_types */
+/* package lucid-2.11.20230408 */
+#ifndef VERSION_lucid
+#define VERSION_lucid "2.11.20230408"
+#endif /* VERSION_lucid */
+#ifndef MIN_VERSION_lucid
+#define MIN_VERSION_lucid(major1,major2,minor) (\
+  (major1) <  2 || \
+  (major1) == 2 && (major2) <  11 || \
+  (major1) == 2 && (major2) == 11 && (minor) <= 20230408)
+#endif /* MIN_VERSION_lucid */
 /* package mysql-simple-0.4.9 */
 #ifndef VERSION_mysql_simple
 #define VERSION_mysql_simple "0.4.9"
@@ -70,6 +120,16 @@
   (major1) == 0 && (major2) <  4 || \
   (major1) == 0 && (major2) == 4 && (minor) <= 19)
 #endif /* MIN_VERSION_sqlite_simple */
+/* package tagged-0.8.9 */
+#ifndef VERSION_tagged
+#define VERSION_tagged "0.8.9"
+#endif /* VERSION_tagged */
+#ifndef MIN_VERSION_tagged
+#define MIN_VERSION_tagged(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  8 || \
+  (major1) == 0 && (major2) == 8 && (minor) <= 9)
+#endif /* MIN_VERSION_tagged */
 /* package text-2.0.2 */
 #ifndef VERSION_text
 #define VERSION_text "2.0.2"

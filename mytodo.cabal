@@ -79,10 +79,17 @@ library
                       text,
                       mysql-simple,
                       sqlite-simple,
+                      lucid,
+                      http-types,
+                      bytestring,
+                      tagged >=0.8.9,
+                      http-media >=0.8.1.1,
+                      http-api-data,
+                   
                   
 
     -- Directories containing source files.
-    hs-source-dirs:   src ,Controllers, Models
+    hs-source-dirs:   src ,Controllers, Models, Servant/HTML
 
     -- Base language which the package is written in.
     default-language: Haskell2010
@@ -114,10 +121,17 @@ executable mytodo
         text,
         mysql-simple,
         sqlite-simple,
+        lucid,
+        http-types,
+        bytestring,
+        tagged >=0.8.9,
+        http-media >=0.8.1.1,
+        http-api-data,
+    
    
 
     -- Directories containing source files.
-    hs-source-dirs:   app ,src ,Controllers, Models
+    hs-source-dirs:   app ,src ,Controllers, Models, Servant/HTML
 
     -- Base language which the package is written in.
     default-language: Haskell2010

@@ -2,13 +2,16 @@
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Controllers.TodoController (TodoAPI, todoServer) where
+module Controllers.TodoController (TodoAPI, todoServer , fetchAllTodos , createTodo) where
 
 import Servant
 import Models.TodoModel (Todo(..), NewTodo(..))
 import Control.Monad.IO.Class (liftIO)
 import Database.SQLite.Simple (query_, execute)
 import Config.DB (getDBConnection)
+import Data.Tagged (Tagged(..))
+
+
 
 -- Define the API for todos:
 type TodoAPI =
@@ -27,12 +30,12 @@ createTodo :: NewTodo -> Handler Todo
 createTodo newTodo = do
   conn <- liftIO getDBConnection
   _ <- liftIO $ execute conn
-         "INSERT INTO todos (todo, description, startTime, endTime, isCompleted) VALUES (?,?,?,?,?)"
+         "INSERT INTO todos (todo, description, startTime, endTime) VALUES (?,?,?,?)"
          ( ntodo newTodo
          , ndescription newTodo
          , nstartTime newTodo
          , nendTime newTodo
-         , nisCompleted newTodo
+         -- , nisCompleted newTodo
          )
   -- Retrieve the newly inserted row using SQLite's last_insert_rowid() function.
   res <- liftIO $ query_ conn "SELECT id, todo, description, startTime, endTime, isCompleted, created_at FROM todos WHERE id = last_insert_rowid()"
