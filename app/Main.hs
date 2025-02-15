@@ -188,6 +188,6 @@ app = serve (Proxy :: Proxy API) server
 main :: IO ()
 main = do
   _ <- initializeDB
-  putStrLn "Starting mytodo server on port 8086..."
-  run 8086 app
+  putStrLn "Starting mytodo server on port 8075..."
+  run 8075 app
 
