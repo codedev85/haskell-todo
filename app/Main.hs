@@ -32,6 +32,7 @@ import Servant
 import Servant.HTML.Lucid (HTML)
 import Views.TodoView (todoPage, todoRow)
 import Controllers.TodoController (fetchAllTodos, createTodo, getTodoEdit , completeTodo)
+import Views.TodoCreate (newTodoPage)
 import Models.TodoModel (NewTodo, Todo)
 import Config.DB (initializeDB)
 import Data.Text.Lazy.Encoding (encodeUtf8)
@@ -42,6 +43,7 @@ import Data.Text (pack)
 
 -- Updated API type without getTodoHandler
 type API = Get '[HTML] (Html ())
+      :<|> "todos" :> "new" :> Get '[HTML] (Html ())
       :<|> "create" :> ReqBody '[FormUrlEncoded] NewTodo :> Post '[HTML] (Html ())
       :<|> "todos" :> Capture "id" Int :> "edit" :> Get '[HTML] (Html ())
       :<|> "todos" :> Capture "id" Int :> "complete" :> Post '[HTML] (Html ())
@@ -49,10 +51,16 @@ type API = Get '[HTML] (Html ())
 
 server :: Server API
 server = getTodosHandler 
+    :<|> newTodoPageHandler
     :<|> createTodoHandler 
     :<|> editTodoHandler
     :<|> completeTodoHandler 
     :<|> viewServer
+
+-- Handler for New Todo Page
+newTodoPageHandler :: Handler (Html ())
+newTodoPageHandler = return newTodoPage
+
 
 -- Handler for main page
 getTodosHandler :: Handler (Html ())
@@ -103,8 +111,8 @@ app = serve (Proxy :: Proxy API) server
 main :: IO ()
 main = do
   _ <- initializeDB
-  putStrLn "Starting mytodo server on port 8040..."
-  run 8040 app
+  putStrLn "Starting mytodo server on port 8046..."
+  run 8046 app
 
 -- Edit Form for modal
 editForm :: Todo -> Html ()
