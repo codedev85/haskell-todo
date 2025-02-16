@@ -170,22 +170,6 @@ completeTodo todoId = do
   updated <- getTodo todoId
   return updated
 
--- Handler to mark a todo as complete.
--- completeTodo :: Connection -> Int -> Handler (Maybe Todo)
--- completeTodo conn todoId = do
---   -- Use a transaction for safety
---   liftIO $ withTransaction conn $ do
---     -- Update the todo's isCompleted status
---     _ <- execute conn 
---       "UPDATE todos SET isCompleted = TRUE WHERE id = ?" 
---       (Only todoId)
---     -- End the `do` block with an expression
---     return () 
-  
---   -- Fetch the updated todo
---   updated <- getTodo todoId
---   return updated
-
 
 
 
