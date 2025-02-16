@@ -125,7 +125,9 @@ module Views.TodoView
   , hxPost_
   , hxTarget_
   , hxSwap_
-  , todoRow  -- Export todoRow for server responses
+  , todoRow 
+  , hxGet_     
+  , hxTrigger_  
   ) where
 
 import Lucid
@@ -153,6 +155,13 @@ import Lucid
   , td_
   , div_
   , toHtml
+  , button_    
+  , class_      
+  , onclick_   
+  ,class_   
+  , id_      
+  , span_  
+  , type_ 
   )
 
 import Lucid.Base (makeAttribute)
@@ -173,6 +182,12 @@ hxTarget_ = ("hx-target" =:)
 hxSwap_ :: Text -> Attribute
 hxSwap_ = ("hx-swap" =:)
 
+hxGet_ :: Text -> Attribute
+hxGet_ = ("hx-get" =:)
+
+hxTrigger_ :: Text -> Attribute
+hxTrigger_ = ("hx-trigger" =:)
+
 todoPage :: [Todo] -> Html ()
 todoPage todos = do
   doctype_
@@ -181,6 +196,13 @@ todoPage todos = do
       title_ "MyTodo App"
       style_ css
       script_ [ "src" =: "https://unpkg.com/htmx.org@1.8.4" ] ("" :: Text)
+      -- script_ [type_ "text/javascript"] $ pack $
+      --    "window.onclick = function(event) {\n\
+      --    \  const modal = document.getElementById('update-modal');\n\
+      --    \  if (event.target === modal) {\n\
+      --    \    modal.style.display = 'none';\n\
+      --    \  }\n\
+      --    \};"
     body_ $ do
       h1_ "Todo List"
       table_ $ do
@@ -193,7 +215,13 @@ todoPage todos = do
           th_ "Completed"
           th_ "Created At"
         tbody_ [ "id" =: "todo-list" ] $ do
-          mapM_ todoRow todos  -- Only one table rendered here
+          mapM_ todoRow todos  
+
+      div_ [id_ "update-modal", class_ "modal"] $ do
+        div_ [class_ "modal-content"] $ do
+          span_ [class_ "close", onclick_ "document.getElementById('update-modal').style.display = 'none'"] "×"
+          div_ [id_ "modal-body"] ""  
+
       h2_ "Create New Todo"
       form_ [ "method" =: "post"
             , "action" =: "/create"
@@ -211,6 +239,15 @@ todoPage todos = do
         br_ []
         input_ [ "type" =: "submit", "value" =: "Create Todo" ]
 
+      --        -- Add modal HTML
+      --   div_ [id_ "update-modal", class_ "modal"] $ do
+      --     div_ [id_ "modal-content", class_ "modal-content"] $ do
+      --      span_ [class_ "close", onclick_ "document.getElementById('update-modal').style.display = 'none'"] "×"
+      --      div_ [id_ "modal-body"] ""  -- HTMX will load content here
+
+
+       -- script_ "function closeModal() { document.getElementById('update-modal').style.display = 'none'; }"
+
 -- Render a single todo row (used for HTMX responses)
 todoRow :: Todo -> Html ()
 todoRow t = tr_ $ do
@@ -221,6 +258,22 @@ todoRow t = tr_ $ do
   td_ (toHtml (endTime t))
   td_ (toHtml (if isCompleted t then ("Yes" :: Text) else ("No" :: Text)))
   td_ (toHtml (createdAt t))
+  td_ $ button_
+    [ class_ "btn-update"
+    , hxPost_ $ "/todos/" <> pack (show (todoId t)) <> "/complete"  -- Change to POST
+    , hxTrigger_ "click"
+    , hxSwap_ "outerHTML"
+    , hxTarget_ "body"
+    ] $ "Complete"
+
+--   td_ $ button_
+--     [ class_ "btn-update"
+--     , hxGet_ $ "/todos/" <> pack (show (todoId t)) <> "/complete"
+--     , hxTarget_ "#modal-content"
+--     , hxTrigger_ "click"
+--     , onclick_ "document.getElementById('update-modal').style.display = 'block';"
+--     ]
+--     "Update Status"
 
 css :: Text
 css = "\n\
@@ -234,3 +287,26 @@ css = "\n\
       \  input[type=submit] { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; } \n\
       \  input[type=submit]:hover { background-color: #45a049; } \n\
       \" 
+-- Add modal CSS
+-- modalCss :: Text
+-- modalCss = "\n\
+--   \.modal {\n\
+--   \  display: none;\n\
+--   \  position: fixed;\n\
+--   \  z-index: 1000000000;\n\
+--   \  left: 0;\n\
+--   \  top: 0;\n\
+--   \  width: 100%;\n\
+--   \  height: 100%;\n\
+--   \  overflow: auto;\n\
+--   \  background-color: rgba(0,0,0,0.4);\n\
+--   \}\n\
+--   \.modal-content {\n\
+--   \  background-color: #fefefe;\n\
+--   \  margin: 15% auto;\n\
+--   \  padding: 20px;\n\
+--   \  border: 1px solid #888;\n\
+--   \  width: 80%;\n\
+--   \  max-width: 600px;\n\
+--   \  position: relative;\n\
+--   \}\n"
